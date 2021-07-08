@@ -9,29 +9,52 @@
         		padding: 10px;
       		}
 		</style>
+		<script src="https://unpkg.com/axios/dist/axios.min.js">
+		
+		</script>
 	</head>
 	<body>
 		<h1>Create Playlist</h1>
 		<form>
   			<label for="title">Title:</label><br>
-  			<input type="text" id="title" name="title"><br>
+  			<input type="text" name="title"><br>
   			<label for="desc">Description:</label><br>
   			<input type="desc" id="desc" name="desc"><br><br>
 		</form> 
 		<button onclick="myFunction()">Submit</button>
 
-	<script>
+	<div class = "info">
+		<img src = "https://i.scdn.co/image/ab67616d0000b2733611f1a3f4dceacc1ca54010">
+		<h3 id = "title">Title</h3>
+		<h3 id = "artists">Artists</h3>
+		<h3 id = "albums">Albums</h3>
+		<button onclick="myInfo()">Click here!</button>
+	</div>
+
+	<script>	
+		const api_url = 'https://gist.githubusercontent.com/aryapradipta9/e6492383477803b233916e01f36d5465/raw/66942c739d66d3774303f84071696aa865a07077/single-sample.json'
 		function myFunction() {
   			alert("ALERT");
 		}
+		function myInfo(){
+			axios.get(api_url)
+				.then((response) => {
+					if(response.status == 200){
+						let albumData = response.data;
+						console.log(albumData);
+						let artistName = albumData.artists[0].name;
+						document.getElementById('artists').innerHTML = artistName;
+						let titleName = albumData.name;
+						document.getElementById('title').innerHTML = titleName;
+						let albumName = albumData.album.name;
+						document.getElementById('albums').innerHTML = albumName;
+					}
+				})
+				.catch((error) =>{
+					alert(error)
+				});
+  	
+  				}
 	</script>
-	<div class = "info">
-		<img src = "https://i.scdn.co/image/ab67616d0000b2733611f1a3f4dceacc1ca54010">
-		<h3>Title</h3>
-		<h3>Artists</h3>
-		<h3>Albums</h3>
-		<button>Click here!</button>
-	</div>
-
 	</body>
 </html>
